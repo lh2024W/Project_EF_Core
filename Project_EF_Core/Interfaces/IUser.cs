@@ -10,7 +10,9 @@ namespace Project_EF_Core.Interfaces
     public interface IUser
     {
         Task<User> GetUserWithTransactionsAsync(int id);
+        Task<User> GetUserWithSettingAsync(int id);
         Task<User> GetUserAsync(int id);
+        
         
         Task AddUserAsync(User user);
         Task DeleteUserAsync(User user);

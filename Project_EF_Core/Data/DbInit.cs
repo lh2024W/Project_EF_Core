@@ -15,9 +15,35 @@ namespace Project_EF_Core.Data
             {
                 context.Users.AddRange
                 (
-                    new User { Name = "Jess", Settings = new Setting { Email = "Jess.@gmail.com", Password = "111"} },
-                    new User { Name = "Martha", Settings = new Setting { Email = "Martha.@gmail.com", Password = "222" } }
+                    new User { Name = "Jess" },
+                    new User { Name = "Martha" }
                 );
+                context.SaveChanges();
+            }
+
+            if (!context.Settings.Any())
+            {
+                context.Settings.AddRange
+                (
+                    new Setting { Email = "Jess.@gmail.com", Password = "111", UserId = 1 },
+                    new Setting { Email = "Martha.@gmail.com", Password = "222", UserId = 2 }
+                );
+                context.SaveChanges();
+            }
+
+            if (!context.Categories.Any())
+            {
+                context.Categories.AddRange
+                    (
+                    new Category
+                    {
+                        Name = "Utility payments"//комунальные платежи
+                    },
+                    new Category
+                    {
+                        Name = "Grocery shopping"//закупка продуктов
+                    }
+                    );
                 context.SaveChanges();
             }
         }

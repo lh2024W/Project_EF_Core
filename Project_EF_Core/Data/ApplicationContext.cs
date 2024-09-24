@@ -10,10 +10,10 @@ namespace Project_EF_Core.Data
 {
     public class ApplicationContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
-        public DbSet<Setting> Settings { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<User> Users { get; set; } = null;
+        public DbSet<Setting> Settings { get; set; } = null;
+        public DbSet<Transaction> Transactions { get; set; } = null;
+        public DbSet<Category> Categories { get; set; } = null;
 
         public ApplicationContext(DbContextOptions options) : base(options)
         {

@@ -55,7 +55,13 @@ namespace Project_EF_Core.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Settings");
                 });
@@ -71,7 +77,7 @@ namespace Project_EF_Core.Migrations
                     b.Property<decimal>("AmountOfMoney")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateTransaction")
@@ -81,7 +87,7 @@ namespace Project_EF_Core.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -105,36 +111,39 @@ namespace Project_EF_Core.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SettingId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SettingId");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Project_EF_Core.Models.Transaction", b =>
+            modelBuilder.Entity("Project_EF_Core.Models.Setting", b =>
                 {
-                    b.HasOne("Project_EF_Core.Models.Category", null)
-                        .WithMany("Transactions")
-                        .HasForeignKey("CategoryId");
-
-                    b.HasOne("Project_EF_Core.Models.User", null)
-                        .WithMany("Transactions")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Project_EF_Core.Models.User", b =>
-                {
-                    b.HasOne("Project_EF_Core.Models.Setting", "Settings")
-                        .WithMany()
-                        .HasForeignKey("SettingId")
+                    b.HasOne("Project_EF_Core.Models.User", "User")
+                        .WithOne("Settings")
+                        .HasForeignKey("Project_EF_Core.Models.Setting", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Settings");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Project_EF_Core.Models.Transaction", b =>
+                {
+                    b.HasOne("Project_EF_Core.Models.Category", "Category")
+                        .WithMany("Transactions")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Project_EF_Core.Models.User", "User")
+                        .WithMany("Transactions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Project_EF_Core.Models.Category", b =>
@@ -144,6 +153,8 @@ namespace Project_EF_Core.Migrations
 
             modelBuilder.Entity("Project_EF_Core.Models.User", b =>
                 {
+                    b.Navigation("Settings");
+
                     b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
