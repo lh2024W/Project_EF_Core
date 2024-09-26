@@ -12,7 +12,7 @@ namespace Project_EF_Core.Repository
 {
     public class TransactionRepository : ITransaction
     {
-        public async Task AddTransactionAsync(Transaction transaction)
+        public async Task AddTransactionAsync(Project_EF_Core.Models.Transaction transaction)
         {
             using (ApplicationContext context = Program.DbContext())
             {
@@ -21,7 +21,7 @@ namespace Project_EF_Core.Repository
             }
         }
 
-        public async Task DeleteTransactionAsync(Transaction transaction)
+        public async Task DeleteTransactionAsync(Project_EF_Core.Models.Transaction transaction)
         {
             using (ApplicationContext context = Program.DbContext())
             {
@@ -30,7 +30,7 @@ namespace Project_EF_Core.Repository
             }
         }
 
-        public async Task<IEnumerable<Transaction>> GetAllTransactionsAsync()
+        public async Task<IEnumerable<Project_EF_Core.Models.Transaction>> GetAllTransactionsAsync()
         {
             using (ApplicationContext context = Program.DbContext())
             {
@@ -38,7 +38,15 @@ namespace Project_EF_Core.Repository
             }
         }
 
-        public async Task<IEnumerable<Transaction>> GetAllTransactionsByDateAsync(DateTime dateTransaction)
+        public async Task<IEnumerable<Models.Transaction>> GetAllTransactionsByCategoryIdAsync(int idCategory)
+        {
+            using (ApplicationContext context = Program.DbContext())
+            {
+                return await context.Transactions.Include(e => e.Category.Id == idCategory).ToListAsync();
+            }
+        }
+
+        public async Task<IEnumerable<Project_EF_Core.Models.Transaction>> GetAllTransactionsByDateAsync(DateTime dateTransaction)
         {
             using (ApplicationContext context = Program.DbContext())
             {
@@ -46,7 +54,15 @@ namespace Project_EF_Core.Repository
             }
         }
 
-        public async Task<Transaction> GetTransactionAsync(int id)
+        public async Task<IEnumerable<Models.Transaction>> GetAllTransactionsByUserNameAsync(string nameUser)
+        {
+            using (ApplicationContext context = Program.DbContext())
+            {
+                return await context.Transactions.Where(e => e.User.Name.Contains(nameUser)).ToListAsync();
+            }
+        }
+
+        public async Task<Project_EF_Core.Models.Transaction> GetTransactionAsync(int id)
         {
             using (ApplicationContext context = Program.DbContext())
             {
@@ -54,7 +70,7 @@ namespace Project_EF_Core.Repository
             }
         }
 
-        public async Task UpdateTransactionAsync(Transaction transaction)
+        public async Task UpdateTransactionAsync(Project_EF_Core.Models.Transaction transaction)
         {
             using (ApplicationContext context = Program.DbContext())
             {

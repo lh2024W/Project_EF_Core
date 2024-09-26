@@ -39,19 +39,34 @@ namespace Project_EF_Core.Repository
             }
         }
 
-        public async Task<User> GetUserAsync(int id)
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             using (ApplicationContext context = Program.DbContext())
             {
-                return await context.Users.FirstOrDefaultAsync(e => e.Id == id);
+                return await context.Users.ToListAsync();
             }
         }
 
-        public async Task<User> GetUserWithSettingAsync(int id)
+        public async Task<User> GetUserAsync(int idUser)
         {
             using (ApplicationContext context = Program.DbContext())
             {
-                return await context.Users.Include(e => e.Settings).FirstOrDefaultAsync(e => e.Id == id);
+                return await context.Users.FirstOrDefaultAsync(e => e.Id == idUser);
+            }
+        }
+        public async Task<IEnumerable<User>> GetUsersByNameAsync(string userName)
+        {
+            using (ApplicationContext context = Program.DbContext())
+            {
+                return await context.Users.Where(e => e.Name.Contains(userName)).ToListAsync();
+            }
+        }
+
+        public async Task<IEnumerable<User>> GetUsersWithSettingAsync()
+        {
+            using (ApplicationContext context = Program.DbContext())
+            {
+                return await context.Users.Include(e => e.Settings).ToListAsync();
             }
         }
         public async Task<User> GetUserWithTransactionsAsync(int id)
@@ -61,5 +76,6 @@ namespace Project_EF_Core.Repository
                 return await context.Users.Include(e => e.Transactions).FirstOrDefaultAsync(e => e.Id == id);
             }
         }
+
     }
 }

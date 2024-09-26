@@ -9,14 +9,15 @@ namespace Project_EF_Core.Interfaces
 {
     public interface ITransaction
     {
-        Task<IEnumerable<Transaction>> GetAllTransactionsAsync();
-        Task<IEnumerable<Transaction>> GetAllTransactionsByDateAsync(DateTime dateTransaction);
-        
-        Task<Transaction> GetTransactionAsync(int id);
+        Task<IEnumerable<Project_EF_Core.Models.Transaction>> GetAllTransactionsAsync();
+        Task<IEnumerable<Project_EF_Core.Models.Transaction>> GetAllTransactionsByDateAsync(DateTime dateTransaction);
+        Task<IEnumerable<Project_EF_Core.Models.Transaction>> GetAllTransactionsByUserNameAsync(string nameUser);
+        Task<IEnumerable<Project_EF_Core.Models.Transaction>> GetAllTransactionsByCategoryIdAsync(int idCategory);
+        Task<Project_EF_Core.Models.Transaction> GetTransactionAsync(int id);
         
 
-        Task AddTransactionAsync(Transaction transaction);
-        Task UpdateTransactionAsync(Transaction transaction);
-        Task DeleteTransactionAsync(Transaction transaction);
+        Task AddTransactionAsync(Project_EF_Core.Models.Transaction transaction);
+        Task UpdateTransactionAsync(Project_EF_Core.Models.Transaction transaction);
+        Task DeleteTransactionAsync(Project_EF_Core.Models.Transaction transaction);
     }
 }

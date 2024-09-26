@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project_EF_Core.Data;
+using Project_EF_Core.Helpers;
 using Project_EF_Core.Interfaces;
 using Project_EF_Core.Models;
+using Project_EF_Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,5 +48,22 @@ namespace Project_EF_Core.Repository
                 return await context.Settings.FirstOrDefaultAsync(e => e.Id == id);
             }
         }
+
+        public async Task<IEnumerable<Setting>> GetAllSettingsAsync()
+        {
+            using (ApplicationContext context = Program.DbContext())
+            {
+                return await context.Settings.ToListAsync();
+            }
+        }
+
+        public async Task<IEnumerable<Setting>> GetSettingByEmailAsync(string email)
+        {
+            using (ApplicationContext context = Program.DbContext())
+            {
+                return await context.Settings.Where(e => e.Email.Contains(email)).ToListAsync();
+            }
+        }
+        
     }
 }

@@ -9,9 +9,11 @@ namespace Project_EF_Core.Interfaces
 {
     public interface IUser
     {
+        Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User> GetUserWithTransactionsAsync(int id);
-        Task<User> GetUserWithSettingAsync(int id);
-        Task<User> GetUserAsync(int id);
+        Task<IEnumerable<User>> GetUsersWithSettingAsync();
+        Task<User> GetUserAsync(int idUser);
+        Task<IEnumerable<User>> GetUsersByNameAsync(string userName);
         
         
         Task AddUserAsync(User user);
